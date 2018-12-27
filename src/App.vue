@@ -5,16 +5,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+<script>
 
-@Component({
+import HelloWorld from "./components/HelloWorld.vue";  
+
+export default {
   components: {
     HelloWorld,
-  },
-})
-export default class App extends Vue {}
+  }
+}
+
 </script>
 
 <style>
