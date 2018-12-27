@@ -1,41 +1,55 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div id="app">
+    <h1>My Blog</h1> 
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr v-for="(article, index,key) in a" :key="index">
+          <td>{{article.id}}</td>
+        </tr> -->
+        <tr>
+          <td>{{a[1]}}</td>
+        </tr>
+      </tbody>
+    </table>  
   </div>
+
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+import axios from 'axios';
+var league_api = require('league-api');
+var league = new league_api('RGAPI-db5e7130-2d44-46ea-ae36-ef480819429d')
+export default{
+  data(){
+    return{
+      a: [],
+      b: [] 
+    }
+  },
+  methods:{
+  fetchArticles(){
+    var _this=this
+    axios.get('https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/Chozinet?api_key=RGAPI-db5e7130-2d44-46ea-ae36-ef480819429d').then((response) =>{
+      this.a=response.data
+    }, (error) =>{
+      console.log('asd')
+    })
+  }
+},
+  mounted: function(){
+    this.fetchArticles()
+    this.b=league.getRecentGames('na', '5908', function(data){
+      console.log(data)
+    })
+  }
 }
 </script>
 
